@@ -27,7 +27,7 @@ Identity and API Access: Allow full access to all Cloud APIs.
 
 ### Step 2: Install Software
 
-#### Setup Scala and sbt
+Setup Scala and sbt
 
 ```
 sudo apt-get install -y dirmngr unzip
@@ -40,7 +40,7 @@ sudo apt-get update
 sudo apt-get install -y bc scala sbt
 ```
 
-#### Setup Feature Detector Files
+ Setup Feature Detector Files
 
 ```
 sudo apt-get update
@@ -49,7 +49,7 @@ unzip cloud-dataproc.zip
 cd cloud-dataproc/codelabs/opencv-haarcascade
 ```
 
-$$$$ Launch Build
+#### Launch Build
 
 This command builds a "fat JAR" of the Feature Detector so that it can be submitted to Cloud Dataproc.
 ```
