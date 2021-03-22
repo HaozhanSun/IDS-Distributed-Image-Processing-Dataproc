@@ -81,7 +81,7 @@ See the contents of our bucket:
 gsutil ls -R gs://${MYBUCKET}
 ```
 
-### Create a Cloud Dataproc cluster
+### Step 4: Create a Cloud Dataproc cluster
 ```
 MYCLUSTER="${USER/_/-}-qwiklab"
 echo MYCLUSTER=${MYCLUSTER}
@@ -92,3 +92,33 @@ Set a global Compute Engine region to use and create a new cluster:
 gcloud config set dataproc/region us-central1
 gcloud dataproc clusters create ${MYCLUSTER} --bucket=${MYBUCKET} --worker-machine-type=n1-standard-2 --master-machine-type=n1-standard-2 --initialization-actions=gs://spls/gsp010/install-libgtk.sh --image-version=2.0  
 ```
+
+### Step 5: Submit the face detection job to Dataproc
+
+```
+curl https://raw.githubusercontent.com/opencv/opencv/master/data/haarcascades/haarcascade_frontalface_default.xml | gsutil cp - gs://${MYBUCKET}/haarcascade_frontalface_default.xml
+```
+Use the set of images uploaded into the imgs directory in Cloud Storage bucket as input to the Feature Detector
+```
+cd ~/cloud-dataproc/codelabs/opencv-haarcascade
+```
+Submit the job to Dataproc:
+```
+gcloud dataproc jobs submit spark \
+--cluster ${MYCLUSTER} \
+--jar target/scala-2.12/feature_detector-assembly-1.0.jar -- \
+gs://${MYBUCKET}/haarcascade_frontalface_default.xml \
+gs://${MYBUCKET}/imgs/ \
+gs://${MYBUCKET}/out/
+```
+
+Then we can monitor the job, in the Console go to Navigation menu > Dataproc > Jobs.
+
+When the job is complete, go to Navigation menu > Storage and find the bucket we created.
+
+click on an image in the Out directory. Click on Download icon, the image will download to local PC.
+
+Sample output:
+![image](https://user-images.githubusercontent.com/37522943/112072164-a3160400-8b47-11eb-8a77-57c84fde2441.png)
+
+Then we are all done. We successfully used Spark on Dataproc to process images in cluster machines.
