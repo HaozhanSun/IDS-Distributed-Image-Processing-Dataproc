@@ -2,9 +2,6 @@
 
 This project uses **Apache Spark** on **Google Cloud Dataproc** controlled by **Google Cloud Compute Engine** to distribute a computationally intensive image processing task (stored in **Google Cloud Storage**) onto a cluster of machines. 
 
-**Demo Video:**
-
-
 
 ## Workflow
 
